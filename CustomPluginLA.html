@@ -1,60 +1,123 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>LA Incident reporter</title>
-<style>
-  body>div>h1 {
-    display: none;
-  }
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>LA Incident reporter</title>
+  <style>
+    body>div>h1 {
+      display: none;
+    }
+
+    .report-buttons{
+      display:flex;
+      gap:12px;
+      padding:20px;
+      align-items:center;
+    }
+
+    .report-buttons button{
+      padding:10px 14px;
+      font-size:15px;
+      border-radius:6px;
+      border:1px solid #cfcfcf;
+      background:#ffffff;
+      cursor:pointer;
+    }
+
+    .report-buttons button[disabled]{
+      opacity:0.6;
+      cursor:not-allowed;
+    }
+  </style>
 </head>
 <body>
 
-<!-- Start of LA Incident reporter -->
-<script id="fh-chatbot-script-e50adad7-7c89-4608-bc21-383f3b5bbd16">
-// Get the current script element
-var currentScript = document.currentScript || document.getElementById('fh-chatbot-script-e50adad7-7c89-4608-bc21-383f3b5bbd16');
+  <div class="report-buttons" role="region" aria-label="Incident report actions">
+    <button id="btn-report-la" type="button">Report LA incident</button>
+    <button id="btn-report-pap" type="button">Report PAP incident</button>
+  </div>
 
-// Load the chatbot initialization script
-var script = document.createElement('script');
-script.async = true;
-script.src = 'https://app.flowhunt.io/api/chatbot/e50adad7-7c89-4608-bc21-383f3b5bbd16?workspace_id=13388148-367e-4da0-bb94-3acdce03cae6&v=2';
-script.onload = function() {  // Initialize the chatbot and get the manager instance
-  window.FHChatbot_e50adad7_7c89_4608_bc21_383f3b5bbd16.init(function(chatbotManager) {});
-};
+  <script>
+  (function(){
+    /**
+     * Creates a loader function that appends the chatbot script to the page and
+     * calls the provider's init() if available. The loader will do nothing if
+     * the script or global object is already present (prevents double-loading).
+     *
+     * @param {string} scriptId - id attribute for the injected <script>
+     * @param {string} src - script src URL
+     * @param {string} globalKey - expected window global the script exposes
+     * @returns {Function}
+     */
+    function createLoader(scriptId, src, globalKey){
+      return function(){
+        if (document.getElementById(scriptId)) return; // already inserted
+        if (window[globalKey]) return; // already available
 
-// Insert the script right after the current script element
-if (currentScript && currentScript.parentNode) {
-  currentScript.parentNode.insertBefore(script, currentScript.nextSibling);
-} else {
-  // Fallback to document.head if no script element is found
-  document.head.appendChild(script);
-}
-</script>
-<!-- End LA Incident reporter -->
+        var script = document.createElement('script');
+        script.id = scriptId;
+        script.async = true;
+        script.src = src;
 
-<!-- Start of PAP Incident reporter -->
-<script id="fh-chatbot-script-8ccaaa6b-4d7c-482c-a439-ce97cb68d221">
-// Get the current script element
-var currentScript = document.currentScript || document.getElementById('fh-chatbot-script-8ccaaa6b-4d7c-482c-a439-ce97cb68d221');
+        script.addEventListener('load', function(){
+          try{
+            var g = window[globalKey];
+            if (g && typeof g.init === 'function'){
+              g.init(function(chatbotManager){ /* initialized */ });
+            }
+          }catch(err){
+            console.error('Chatbot init error', err);
+          }
+        });
 
-// Load the chatbot initialization script
-var script = document.createElement('script');
-script.async = true;
-script.src = 'https://app.flowhunt.io/api/chatbot/8ccaaa6b-4d7c-482c-a439-ce97cb68d221?workspace_id=13388148-367e-4da0-bb94-3acdce03cae6&v=2';
-script.onload = function() {  // Initialize the chatbot and get the manager instance
-  window.FHChatbot_8ccaaa6b_4d7c_482c_a439_ce97cb68d221.init(function(chatbotManager) {});
-};
+        document.body.appendChild(script);
+      };
+    }
 
-// Insert the script right after the current script element
-if (currentScript && currentScript.parentNode) {
-  currentScript.parentNode.insertBefore(script, currentScript.nextSibling);
-} else {
-  // Fallback to document.head if no script element is found
-  document.head.appendChild(script);
-}
-</script>
-<!-- End of PAP Incident reporter -->
+    // External script URLs (copied from your original file)
+    var laSrc = 'https://app.flowhunt.io/api/chatbot/e50adad7-7c89-4608-bc21-383f3b5bbd16?workspace_id=13388148-367e-4da0-bb94-3acdce03cae6&v=2';
+    var papSrc = 'https://app.flowhunt.io/api/chatbot/8ccaaa6b-4d7c-482c-a439-ce97cb68d221?workspace_id=13388148-367e-4da0-bb94-3acdce03cae6&v=2';
+
+    // The global names your original onload callbacks referenced
+    var laGlobal = 'FHChatbot_e50adad7_7c89_4608_bc21_383f3b5bbd16';
+    var papGlobal = 'FHChatbot_8ccaaa6b_4d7c_482c_a439_ce97cb68d221';
+
+    var loadLA = createLoader('fh-chatbot-script-e50adad7-7c89-4608-bc21-383f3b5bbd16', laSrc, laGlobal);
+    var loadPAP = createLoader('fh-chatbot-script-8ccaaa6b-4d7c-482c-a439-ce97cb68d221', papSrc, papGlobal);
+
+    var btnLA = document.getElementById('btn-report-la');
+    var btnPAP = document.getElementById('btn-report-pap');
+
+    function onceify(loadFn, btn, loadedText){
+      var called = false;
+      return function(){
+        if (called) return;
+        called = true;
+        btn.disabled = true;
+        var originalText = btn.textContent;
+        btn.textContent = 'Loading...';
+
+        try{
+          loadFn();
+        }catch(e){
+          console.error('Failed to start loader', e);
+          btn.disabled = false;
+          btn.textContent = originalText;
+          called = false;
+          return;
+        }
+
+        // After starting the load, update UI to indicate success; keep disabled
+        btn.textContent = loadedText || 'Loaded';
+      };
+    }
+
+    btnLA.addEventListener('click', onceify(loadLA, btnLA, 'Open LA report (loaded)'));
+    btnPAP.addEventListener('click', onceify(loadPAP, btnPAP, 'Open PAP report (loaded)'));
+
+  })();
+  </script>
 
 </body>
 </html>
