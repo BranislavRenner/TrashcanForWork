@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>LA Incident reporter</title>
+  <title>Incident reporters</title>
   <style>
     body>div>h1 {
       display: none;
@@ -75,13 +75,12 @@
       };
     }
 
-    // External script URLs (copied from your original file)
+    // Updated external script URLs and global names
     var laSrc = 'https://app.flowhunt.io/api/chatbot/534edbef-d95b-49e2-bcba-28eca2d20e6f?workspace_id=4d1adbc8-edfa-48c1-b93a-a8096d28f5e7&v=2';
     var papSrc = 'https://app.flowhunt.io/api/chatbot/a49c6dfc-9548-4026-b303-c1936945bd2a?workspace_id=4d1adbc8-edfa-48c1-b93a-a8096d28f5e7&v=2';
 
-    // The global names your original onload callbacks referenced
-    var laGlobal = 'FHChatbot_e50adad7_7c89_4608_bc21_383f3b5bbd16';
-    var papGlobal = 'FHChatbot_8ccaaa6b_4d7c_482c_a439_ce97cb68d221';
+    var laGlobal = 'FHChatbot_534edbef_d95b_49e2_bcba_28eca2d20e6f';
+    var papGlobal = 'FHChatbot_a49c6dfc_9548_4026_b303_c1936945bd2a';
 
     var loadLA = createLoader('fh-chatbot-script-534edbef-d95b-49e2-bcba-28eca2d20e6f', laSrc, laGlobal);
     var loadPAP = createLoader('fh-chatbot-script-a49c6dfc-9548-4026-b303-c1936945bd2a', papSrc, papGlobal);
