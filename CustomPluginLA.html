@@ -10,7 +10,7 @@
 </head>
 <body>
 
-<!-- Start of FlowHunt integration -->
+<!-- Start of LA Incident reporter -->
 <script id="fh-chatbot-script-e50adad7-7c89-4608-bc21-383f3b5bbd16">
 // Get the current script element
 var currentScript = document.currentScript || document.getElementById('fh-chatbot-script-e50adad7-7c89-4608-bc21-383f3b5bbd16');
@@ -31,7 +31,30 @@ if (currentScript && currentScript.parentNode) {
   document.head.appendChild(script);
 }
 </script>
-<!-- End of FlowHunt integration -->
+<!-- End LA Incident reporter -->
+
+<!-- Start of PAP Incident reporter -->
+<script id="fh-chatbot-script-8ccaaa6b-4d7c-482c-a439-ce97cb68d221">
+// Get the current script element
+var currentScript = document.currentScript || document.getElementById('fh-chatbot-script-8ccaaa6b-4d7c-482c-a439-ce97cb68d221');
+
+// Load the chatbot initialization script
+var script = document.createElement('script');
+script.async = true;
+script.src = 'https://app.flowhunt.io/api/chatbot/8ccaaa6b-4d7c-482c-a439-ce97cb68d221?workspace_id=13388148-367e-4da0-bb94-3acdce03cae6&v=2';
+script.onload = function() {  // Initialize the chatbot and get the manager instance
+  window.FHChatbot_8ccaaa6b_4d7c_482c_a439_ce97cb68d221.init(function(chatbotManager) {});
+};
+
+// Insert the script right after the current script element
+if (currentScript && currentScript.parentNode) {
+  currentScript.parentNode.insertBefore(script, currentScript.nextSibling);
+} else {
+  // Fallback to document.head if no script element is found
+  document.head.appendChild(script);
+}
+</script>
+<!-- End of PAP Incident reporter -->
 
 </body>
 </html>
