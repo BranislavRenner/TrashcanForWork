@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+<title>LA Incident reporter</title>
+<style>
+  #fh-chatbot-534edbef-d95b-49e2-bcba-28eca2d20e6f>div>div>div {
+    height: 100%;
+  }
+  #backToQU {
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    text-decoration: none;
+    color: #808080;
+</style>
+</head>
+<body>
+
+<a id="backToQU" href="https://branislavrenner.github.io/QUagentAssistant/AgentAssistant.html">&lt; Back to QU Assistant</a>
+<h1>There's nothing here at this moment. If you needed this tool, let B. Renner know to finish it.</h1>
+<!--
+<!-- Start of FlowHunt integration -->
+<script id="fh-chatbot-script-a49c6dfc-9548-4026-b303-c1936945bd2a">
+// Get the current script element
+var currentScript = document.currentScript || document.getElementById('fh-chatbot-script-a49c6dfc-9548-4026-b303-c1936945bd2a');
+
+// Load the chatbot initialization script
+var script = document.createElement('script');
+script.async = true;
+script.src = 'https://app.flowhunt.io/api/chatbot/a49c6dfc-9548-4026-b303-c1936945bd2a?workspace_id=4d1adbc8-edfa-48c1-b93a-a8096d28f5e7&v=2';
+script.onload = function() {  // Initialize the chatbot and get the manager instance
+  window.FHChatbot_a49c6dfc_9548_4026_b303_c1936945bd2a.init(function(chatbotManager) {});
+};
+
+// Insert the script right after the current script element
+if (currentScript && currentScript.parentNode) {
+  currentScript.parentNode.insertBefore(script, currentScript.nextSibling);
+} else {
+  // Fallback to document.head if no script element is found
+  document.head.appendChild(script);
+}
+</script>
+<!-- End of FlowHunt integration -->
+
+<script>
+(function () {
+  'use strict';
+
+  const HOST_ID = 'fh-chatbot-534edbef-d95b-49e2-bcba-28eca2d20e6f';
+  const STYLE_ID = 'fh-chatbot-panel-fix-style';
+  const WANT_HEIGHT = '93vh';
+
+  // apply fix inside an open shadowRoot; returns true if applied
+  function applyFixToHost(host) {
+    if (!host) return false;
+    const sr = host.shadowRoot;
+    if (!sr) return false; // cannot access closed shadowRoot
+
+    // inject a <style> into the shadow root (id scoped to sr)
+    if (!sr.querySelector('#' + STYLE_ID)) {
+      const style = document.createElement('style');
+      style.id = STYLE_ID;
+      style.textContent = `
+        /* be specific to avoid accidental matches */
+        .fh-chatbotPanel {
+          height: ${WANT_HEIGHT} !important;
+          max-height: none !important;
+        }
+      `;
+      try { sr.appendChild(style); } catch (e) { /* append failure unlikely for open sr */ }
+    }
+
+    // also set inline style on existing matching elements (defensive)
+    const panels = sr.querySelectorAll('.fh-chatbotPanel');
+    panels.forEach(el => {
+      try { el.style.setProperty('height', WANT_HEIGHT, 'important'); } catch (e) {}
+    });
+
+    // observe shadowRoot for future additions and reapply if needed
+    if (!applyFixToHost._observed) {
+      try {
+        const srObserver = new MutationObserver(() => {
+          // re-apply inline style for any panels added/changed
+          const p = sr.querySelectorAll('.fh-chatbotPanel');
+          p.forEach(el => el.style.setProperty('height', WANT_HEIGHT, 'important'));
+        });
+        srObserver.observe(sr, { childList: true, subtree: true });
+        applyFixToHost._observed = true;
+      } catch (e) {
+        // ignore observer errors
+      }
+    }
+
+    return true;
+  }
+
+  // Try immediate apply, then fall back to observers/polling
+  function init() {
+    const host = document.getElementById(HOST_ID);
+    if (applyFixToHost(host)) return;
+
+    // Observe DOM for host insertion
+    const docObserver = new MutationObserver((mutations, obs) => {
+      const h = document.getElementById(HOST_ID);
+      if (!h) return;
+      // if shadowRoot already present, apply; otherwise poll for shadowRoot
+      if (applyFixToHost(h)) {
+        obs.disconnect();
+        return;
+      }
+      // shadowRoot might be created a bit later by the loaded script — poll for it
+      const srPoll = setInterval(() => {
+        if (applyFixToHost(h)) {
+          clearInterval(srPoll);
+          obs.disconnect();
+        }
+      }, 250);
+    });
+
+    docObserver.observe(document.documentElement || document.body, { childList: true, subtree: true });
+
+    // Extra fallback: short poll in case MutationObserver misses something
+    const fallbackPoll = setInterval(() => {
+      const h = document.getElementById(HOST_ID);
+      if (h && applyFixToHost(h)) {
+        clearInterval(fallbackPoll);
+      }
+    }, 500);
+  }
+
+  // run on next tick; safe if the script is appended right after integration snippet
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+})();
+</script>
+-->
+</body>
+</html>
